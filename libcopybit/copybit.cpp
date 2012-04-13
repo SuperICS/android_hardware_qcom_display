@@ -84,7 +84,9 @@ struct copybit_module_t HAL_MODULE_INFO_SYM = {
         id: COPYBIT_HARDWARE_MODULE_ID,
         name: "QCT MSM7K COPYBIT Module",
         author: "Google, Inc.",
-        methods: &copybit_module_methods
+        methods: &copybit_module_methods,
+        dso: 0,
+        reserved: {0},
     }
 };
 
