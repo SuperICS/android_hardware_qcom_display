@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#include <cutils/log.h>
-
 #include "allocator.h"
 
 
@@ -113,9 +111,6 @@ ssize_t SimpleBestFitAllocator::alloc(size_t size, uint32_t flags)
                 mList.insertBefore(free_chunk, split);
             }
 
-            LOGE_IF(((free_chunk->start*kMemoryAlign)&(pagesize-1)),
-                    "page is not aligned!!!");
-
             const ssize_t tail_free = free_size - (size+extra);
             if (tail_free > 0) {
                 chunk_t* split = new chunk_t(
@@ -134,10 +129,6 @@ SimpleBestFitAllocator::chunk_t* SimpleBestFitAllocator::dealloc(size_t start)
     chunk_t* cur = mList.head();
     while (cur) {
         if (cur->start == start) {
-            LOG_FATAL_IF(cur->free,
-                "block at offset 0x%08lX of size 0x%08lX already freed",
-                cur->start*kMemoryAlign, cur->size*kMemoryAlign);
-
             // merge freed blocks together
             chunk_t* freed = cur;
             cur->free = 1;
@@ -152,10 +143,6 @@ SimpleBestFitAllocator::chunk_t* SimpleBestFitAllocator::dealloc(size_t start)
                 }
                 cur = n;
             } while (cur && cur->free);
-
-            LOG_FATAL_IF(!freed->free,
-                "freed block at offset 0x%08lX of size 0x%08lX is not free!",
-                freed->start * kMemoryAlign, freed->size * kMemoryAlign);
 
             return freed;
         }

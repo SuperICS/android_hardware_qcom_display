@@ -39,7 +39,7 @@ int convertYV12toYCrCb420SP(const copybit_image_t *src)
     private_handle_t* hnd = (private_handle_t*)src->handle;
 
     if(hnd == NULL){
-        LOGE("Invalid handle");
+        ALOGE("Invalid handle");
         return -1;
     }
 
@@ -61,7 +61,7 @@ int convertYV12toYCrCb420SP(const copybit_image_t *src)
     unsigned char* tempBuf = (unsigned char*) malloc (tempBufSize);
 
     if(tempBuf == NULL) {
-        LOGE("Failed to allocate temporary buffer");
+        ALOGE("Failed to allocate temporary buffer");
         return -errno;
     }
 
@@ -153,7 +153,7 @@ static int copy_source_to_destination(const int src_base, const int dst_base,
                                       copyInfo& info)
 {
     if (!src_base || !dst_base) {
-        LOGE("%s: invalid memory src_base = 0x%x dst_base=0x%x",
+        ALOGE("%s: invalid memory src_base = 0x%x dst_base=0x%x",
              __FUNCTION__, src_base, dst_base);
          return COPYBIT_FAILURE;
     }
@@ -195,9 +195,9 @@ static int copy_source_to_destination(const int src_base, const int dst_base,
 int convert_yuv_c2d_to_yuv_android(private_handle_t *hnd,
                                    struct copybit_image_t const *rhs)
 {
-    LOGD("Enter %s", __FUNCTION__);
+    ALOGD("Enter %s", __FUNCTION__);
     if (!hnd || !rhs) {
-        LOGE("%s: invalid inputs hnd=%p rhs=%p", __FUNCTION__, hnd, rhs);
+        ALOGE("%s: invalid inputs hnd=%p rhs=%p", __FUNCTION__, hnd, rhs);
         return COPYBIT_FAILURE;
     }
 
@@ -221,7 +221,7 @@ int convert_yuv_c2d_to_yuv_android(private_handle_t *hnd,
             info.dst_plane1_offset = ALIGN(info.dst_stride*info.height, 2048);
         } break;
         default:
-            LOGE("%s: unsupported format (format=0x%x)", __FUNCTION__,
+            ALOGE("%s: unsupported format (format=0x%x)", __FUNCTION__,
                  rhs->format);
             return COPYBIT_FAILURE;
     }
@@ -242,7 +242,7 @@ int convert_yuv_android_to_yuv_c2d(private_handle_t *hnd,
                                    struct copybit_image_t const *rhs)
 {
     if (!hnd || !rhs) {
-        LOGE("%s: invalid inputs hnd=%p rhs=%p", __FUNCTION__, hnd, rhs);
+        ALOGE("%s: invalid inputs hnd=%p rhs=%p", __FUNCTION__, hnd, rhs);
         return COPYBIT_FAILURE;
     }
 
@@ -266,7 +266,7 @@ int convert_yuv_android_to_yuv_c2d(private_handle_t *hnd,
             info.dst_plane1_offset = ALIGN(info.dst_stride*info.height, 2048);
         } break;
         default:
-            LOGE("%s: unsupported format (format=0x%x)", __FUNCTION__,
+            ALOGE("%s: unsupported format (format=0x%x)", __FUNCTION__,
                  rhs->format);
             return -1;
     }
